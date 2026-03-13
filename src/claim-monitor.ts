@@ -300,6 +300,12 @@ export class ClaimMonitor {
                     this.socialFeeIndex.updateFromCreateEvent(bytes);
                 } else if (disc === UPDATE_FEE_SHARES_EVENT_DISC) {
                     this.socialFeeIndex.updateFromUpdateSharesEvent(bytes);
+                } else if (
+                    disc === '7a027f010ebf0caf' || // CollectCreatorFeeEvent
+                    disc === 'a537817004b3ca28' || // DistributeCreatorFeesEvent
+                    disc === 'e8f5c2eeeada3a59'    // CollectCoinCreatorFeeEvent
+                ) {
+                    hasClaimIx = true;
                 }
             } catch { /* ignore unparseable */ }
         }

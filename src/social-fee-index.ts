@@ -146,7 +146,9 @@ export class SocialFeeIndex {
 
             // Chunk GPA by first byte of the mint pubkey to avoid OOM.
             // Each chunk fetches ~1/256th of all SharingConfig accounts.
-            const CONCURRENCY = 4;
+            // Concurrency kept low with inter-batch delay to respect rate limits.
+            const CONCURRENCY = 2;
+            const BATCH_DELAY_MS = 500;
             for (let batchStart = 0; batchStart < 256; batchStart += CONCURRENCY) {
                 const batchEnd = Math.min(batchStart + CONCURRENCY, 256);
                 type GpaResult = Array<{ pubkey: PublicKey; account: { data: Buffer } }>;
@@ -184,8 +186,9 @@ export class SocialFeeIndex {
                 }
 
                 const results = await Promise.all(fetches);
+                let batchHad429 = false;
                 for (const accounts of results) {
-                    if (!accounts) continue;
+                    if (!accounts) { batchHad429 = true; continue; }
                     totalAccounts += accounts.length;
                     for (let i = 0; i < accounts.length; i++) {
                         const data = accounts[i]!.account.data as Buffer;
@@ -201,6 +204,10 @@ export class SocialFeeIndex {
                         }
                     }
                 }
+
+                // Delay between batches; back off harder if we saw 429 failures
+                const delay = batchHad429 ? BATCH_DELAY_MS * 4 : BATCH_DELAY_MS;
+                await new Promise(r => setTimeout(r, delay));
             }
 
             this.bootstrapped = true;

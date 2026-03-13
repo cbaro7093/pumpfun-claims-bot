@@ -134,6 +134,8 @@ export class RpcFallback {
                         msg.slice(0, 80),
                     );
                     this.reportFailure();
+                    // Brief backoff before trying next endpoint to avoid cascading 429s
+                    await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
                     continue;
                 }
 
