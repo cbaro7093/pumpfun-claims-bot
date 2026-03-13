@@ -84,11 +84,20 @@ async function main(): Promise<void> {
         }
     }
 
+    /** Telegram caption limit for sendPhoto (characters). */
+    const TELEGRAM_CAPTION_LIMIT = 1024;
+
     /** Send a photo with caption to the channel. Falls back to text if photo fails. */
     async function postPhotoToChannel(imageUrl: string, caption: string): Promise<void> {
+        // Truncate at the last newline before the limit so we never cut inside an HTML tag.
+        let photoCaption = caption;
+        if (caption.length > TELEGRAM_CAPTION_LIMIT) {
+            const cutoff = caption.lastIndexOf('\n', TELEGRAM_CAPTION_LIMIT - 4);
+            photoCaption = (cutoff > 0 ? caption.slice(0, cutoff) : caption.slice(0, TELEGRAM_CAPTION_LIMIT - 1)) + '\n…';
+        }
         try {
             await withRetry(() => bot.api.sendPhoto(config.channelId, imageUrl, {
-                caption,
+                caption: photoCaption,
                 parse_mode: 'HTML',
             }));
         } catch (err) {
