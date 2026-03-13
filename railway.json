@@ -26,6 +26,10 @@
                 "description": "Solana WebSocket URL for real-time monitoring",
                 "required": false
             },
+            "SOCIAL_FEE_BOOTSTRAP": {
+                "description": "Set to 'true' to enable on-chain GPA bootstrap of the social fee index at startup. Disabled by default — requires ≥1 GB heap; enabling it on low-memory instances will crash the process.",
+                "required": false
+            },
             "POLL_INTERVAL_SECONDS": {
                 "description": "Polling interval in seconds (default: 30)",
                 "required": false

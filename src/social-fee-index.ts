@@ -68,10 +68,13 @@ function parseShareholderAddresses(buf: Buffer, offset: number): string[] {
     const count = buf.readUInt32LE(offset);
     offset += 4;
 
-    if (count > 20 || buf.length < offset + count * 34) return []; // sanity check
+    if (count > 20) return []; // sanity check
 
+    // Parse as many shareholders as the buffer contains — dataSlice may
+    // truncate the account data, so we stop when bytes run out rather than
+    // requiring the full count * 34 bytes to be present.
     const addresses: string[] = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count && offset + 34 <= buf.length; i++) {
         const addr = readPubkey(buf, offset);
         if (addr) addresses.push(addr);
         offset += 34; // 32 (pubkey) + 2 (share_bps u16)
@@ -105,9 +108,23 @@ export class SocialFeeIndex {
     /**
      * Bootstrap the index by scanning ALL SharingConfig accounts on-chain.
      * Runs once at startup so historical configs are covered.
+     *
+     * Opt-in via SOCIAL_FEE_BOOTSTRAP=true. Disabled by default because
+     * getProgramAccounts returns all accounts at once and exhausts the JS heap
+     * when hundreds of thousands of SharingConfig accounts exist on-chain.
+     * Without bootstrap the index is populated incrementally from live
+     * CreateFeeSharingConfigEvent / UpdateFeeSharesEvent log emissions.
      */
     async bootstrap(rpc: RpcFallback): Promise<void> {
         if (this.bootstrapped) return;
+        if (process.env.SOCIAL_FEE_BOOTSTRAP !== 'true') {
+            log.info(
+                'SocialFeeIndex: skipping GPA bootstrap (set SOCIAL_FEE_BOOTSTRAP=true to enable). '
+                + 'Index will build from live events only.',
+            );
+            this.bootstrapped = true;
+            return;
+        }
         try {
             log.info('SocialFeeIndex: bootstrapping from on-chain SharingConfig accounts...');
             // dataSlice caps the returned data to only the bytes we parse:
@@ -118,7 +135,11 @@ export class SocialFeeIndex {
             const accounts = await rpc.withFallback((conn) =>
                 conn.getProgramAccounts(new PublicKey(PUMP_FEE_PROGRAM_ID), {
                     commitment: 'confirmed',
-                    dataSlice: { offset: 0, length: 760 },
+                    // 8(disc)+1+1+1(meta)+32(mint)+32(admin)+1(revoked)+4(count)+4×34(shareholders)=216
+                    // Covers up to 4 shareholders per config. Caps the JSON response at ~43MB
+                    // for 150k accounts instead of ~152MB with the full 760-byte slice,
+                    // avoiding OOM during bootstrap on memory-constrained containers.
+                    dataSlice: { offset: 0, length: 216 },
                     filters: [
                         {
                             memcmp: {
