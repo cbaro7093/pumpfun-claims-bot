@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSEO } from '../hooks/useSEO'
 
 function BotMsg({ time, children }: { time: string; children: React.ReactNode }) {
   return (
@@ -26,6 +27,7 @@ function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
 }
 
 export default function CreateCoin() {
+  useSEO('Create Coin', 'Launch a new token on PumpFun with PumpKit — configure name, symbol, social links, fee sharing, and deploy to Solana.')
   const [name,     setName]     = useState('')
   const [symbol,   setSymbol]   = useState('')
   const [desc,     setDesc]     = useState('')

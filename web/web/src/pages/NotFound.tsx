@@ -1,4 +1,7 @@
+import { useSEO } from '../hooks/useSEO'
+
 export default function NotFound() {
+  useSEO('Page Not Found', 'The page you are looking for does not exist.')
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
       <div className="text-5xl">🐸</div>

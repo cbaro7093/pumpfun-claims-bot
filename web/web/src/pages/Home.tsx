@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useSEO } from '../hooks/useSEO'
 
 export default function Home() {
+  useSEO('PumpKit', 'PumpKit is an open-source TypeScript framework for real-time PumpFun monitoring on Solana. Track fee claims, whale trades, token launches, and graduations with Telegram alerts.')
   return (
     <div className="max-w-2xl mx-auto px-6 py-12 flex flex-col gap-10">
 

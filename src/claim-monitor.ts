@@ -602,13 +602,17 @@ export class ClaimMonitor {
                         offset += 8;
                     }
                     // Next two u64 fields are lifetime_claimed and claimable_before (order uncertain
-                    // across program versions).  Read both and take the larger — if the user has
-                    // claimed before, the true cumulative lifetime will exceed any single claim amount.
+                    // across program versions).
+                    // - lifetime_claimed: real lamport total, always ≤ amount_claimed for a first-ever claim
+                    // - claimable_before: Unix timestamp in seconds (~1.74B for 2026), NOT lamports
+                    // Taking Math.max() was wrong: it always returned the timestamp (~1.74B lamports),
+                    // which made every claim < ~1.74 SOL appear to be a repeat claim.
+                    // Fix: take Math.min() — the real lifetime lamports are always < any sane timestamp.
                     if (bytes.length >= offset + 16) {
                         const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
                         const fieldA = Number(view.getBigUint64(offset, true));
                         const fieldB = Number(view.getBigUint64(offset + 8, true));
-                        lifetimeClaimedLamports = Math.max(fieldA, fieldB);
+                        lifetimeClaimedLamports = Math.min(fieldA, fieldB);
                     } else if (bytes.length >= offset + 8) {
                         const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
                         lifetimeClaimedLamports = Number(view.getBigUint64(offset, true));

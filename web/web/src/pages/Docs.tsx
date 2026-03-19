@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useSEO } from '../hooks/useSEO'
 
 function BotMsg({ children, time = '10:00' }: { children: React.ReactNode; time?: string }) {
   return (
@@ -15,6 +16,7 @@ function BotMsg({ children, time = '10:00' }: { children: React.ReactNode; time?
 
 const SECTIONS = [
   { id: 'getting-started', label: 'Getting Started' },
+  { id: 'tutorials',       label: '🎓 Tutorials' },
   { id: 'architecture',    label: 'Architecture' },
   { id: 'packages',        label: 'Packages' },
   { id: 'commands',        label: 'Bot Commands' },
@@ -23,6 +25,7 @@ const SECTIONS = [
 ]
 
 export default function Docs() {
+  useSEO('Documentation', 'PumpKit documentation — getting started, tutorials, architecture, API reference, bot commands, and FAQ for the PumpFun monitoring framework.')
   const [active, setActive] = useState('getting-started')
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -69,6 +72,128 @@ export default function Docs() {
             <div className="bg-[#1a2332] rounded-lg p-3 font-mono text-xs text-zinc-300 overflow-x-auto">
               <p><span className="text-pump-green">$</span> git clone https://github.com/nirholas/pumpkit.git</p>
               <p><span className="text-pump-green">$</span> cd pumpkit &amp;&amp; npm install</p>
+            </div>
+          </BotMsg>
+
+          <div id="tutorials" className="pt-2" />
+          <BotMsg time="09:01">
+            <p className="text-white font-bold mb-2">🎓 Tutorials</p>
+            <p className="text-zinc-300 text-sm leading-relaxed mb-3">
+              Step-by-step guides for setting up the bot from scratch. No coding required.
+            </p>
+            <div className="space-y-3">
+              <a
+                href="https://github.com/nirholas/pumpfun-claims-bot/blob/main/docs/railway-github-claims.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 bg-[#1a2332] rounded-xl p-3 hover:bg-[#1e2b3d] transition group"
+              >
+                <span className="text-2xl">🚀</span>
+                <div>
+                  <p className="text-tg-blue font-semibold text-sm group-hover:underline">Deploy GitHub Claims Bot on Railway</p>
+                  <p className="text-zinc-400 text-xs mt-0.5 leading-relaxed">
+                    Full walkthrough — Telegram bot setup, Helius RPC, GitHub token, Railway deploy, persistent storage. ~20 minutes.
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-[10px] bg-pump-green/10 text-pump-green px-2 py-0.5 rounded-full">Beginner</span>
+                    <span className="text-[10px] bg-tg-blue/10 text-tg-blue px-2 py-0.5 rounded-full">No code</span>
+                    <span className="text-[10px] bg-zinc-700 text-zinc-400 px-2 py-0.5 rounded-full">~20 min</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </BotMsg>
+
+          {/* Tutorial: Railway Step-by-Step */}
+          <BotMsg time="09:01">
+            <p className="text-white font-bold mb-3">🚀 Railway Setup — Quick Guide</p>
+            <div className="space-y-2 text-xs">
+              {[
+                { n: '1', title: 'Create a Telegram Bot', desc: 'Message @BotFather → /newbot → save your token' },
+                { n: '2', title: 'Create a Telegram Channel', desc: 'New Channel → add your bot as admin with Post Messages permission' },
+                { n: '3', title: 'Get a Helius RPC', desc: 'Sign up at helius.xyz → copy both the https:// and wss:// URLs' },
+                { n: '4', title: 'Get a GitHub Token', desc: 'github.com/settings/tokens → classic token → no scopes needed' },
+                { n: '5', title: 'Fork the repo', desc: 'github.com/nirholas/pumpfun-claims-bot → Fork' },
+                { n: '6', title: 'Deploy on Railway', desc: 'railway.app → New Project → Deploy from GitHub' },
+                { n: '7', title: 'Add your variables', desc: 'Service → Variables → Raw Editor → paste your settings' },
+                { n: '8', title: 'Add a Volume', desc: 'New → Volume → mount at /app/data → prevents duplicate alerts on restart' },
+                { n: '9', title: 'Deploy & check logs', desc: 'Deploy Now → look for "WS connected" in logs → done!' },
+              ].map(({ n, title, desc }) => (
+                <div key={n} className="flex gap-3 items-start">
+                  <span className="w-5 h-5 rounded-full bg-tg-blue/20 text-tg-blue text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{n}</span>
+                  <div>
+                    <p className="text-white font-medium">{title}</p>
+                    <p className="text-zinc-500 mt-0.5">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BotMsg>
+
+          {/* Paste-ready settings */}
+          <BotMsg time="09:02">
+            <p className="text-white font-bold mb-2">📋 Paste-Ready Settings</p>
+            <p className="text-zinc-400 text-xs mb-3">Copy this into Railway's Raw Editor and fill in the 4 blanks:</p>
+            <div className="bg-[#1a2332] rounded-lg p-3 font-mono text-xs text-zinc-300 overflow-x-auto space-y-1">
+              <p><span className="text-zinc-500"># Required</span></p>
+              <p>TELEGRAM_BOT_TOKEN=<span className="text-pump-green">← from @BotFather</span></p>
+              <p>CHANNEL_ID=<span className="text-pump-green">← @channelname or -100xxx</span></p>
+              <p>SOLANA_RPC_URL=<span className="text-pump-green">← https://mainnet.helius-rpc.com/?api-key=...</span></p>
+              <p>SOLANA_WS_URL=<span className="text-pump-green">← wss://mainnet.helius-rpc.com/?api-key=...</span></p>
+              <p>GITHUB_TOKEN=<span className="text-pump-green">← ghp_...</span></p>
+              <p className="pt-1"><span className="text-zinc-500"># Leave these as-is</span></p>
+              <p>FEED_CLAIMS=true</p>
+              <p>FEED_GRADUATIONS=false</p>
+              <p>REQUIRE_GITHUB=true</p>
+              <p>LOG_LEVEL=info</p>
+              <p>DATA_DIR=/app/data</p>
+            </div>
+          </BotMsg>
+
+          {/* Healthy logs */}
+          <BotMsg time="09:02">
+            <p className="text-white font-bold mb-2">✅ What Healthy Logs Look Like</p>
+            <p className="text-zinc-400 text-xs mb-2">If you see this in Railway's Logs tab, you're done:</p>
+            <div className="bg-[#1a2332] rounded-lg p-3 font-mono text-xs overflow-x-auto space-y-0.5">
+              <p><span className="text-pump-green">[INFO]</span> <span className="text-zinc-300">Starting PumpFun Channel Bot</span></p>
+              <p><span className="text-pump-green">[INFO]</span> <span className="text-zinc-300">Feeds enabled: claims=true</span></p>
+              <p><span className="text-pump-green">[INFO]</span> <span className="text-zinc-300">SocialFeeIndex ready: 148234 entries</span></p>
+              <p><span className="text-pump-green">[INFO]</span> <span className="text-zinc-300">WS connected to pfee...</span></p>
+              <p><span className="text-pump-green">[INFO]</span> <span className="text-zinc-300">WS heartbeat: 0 events (uptime 0h1m)</span></p>
+            </div>
+          </BotMsg>
+
+          {/* Troubleshooting */}
+          <BotMsg time="09:03">
+            <p className="text-white font-bold mb-3">🔧 Something Wrong?</p>
+            <div className="space-y-3">
+              {[
+                {
+                  q: 'Bot started but nothing posts',
+                  a: 'Check FEED_CLAIMS=true and that your bot is an admin in the channel with Post Messages enabled.',
+                },
+                {
+                  q: '"Unauthorized" error in logs',
+                  a: 'Your TELEGRAM_BOT_TOKEN is wrong — go back to BotFather and copy it again.',
+                },
+                {
+                  q: 'Duplicate "first claim" alerts after restart',
+                  a: 'Volume not attached. Confirm mount path is exactly /app/data.',
+                },
+                {
+                  q: '"WS disconnected" in logs',
+                  a: 'SOLANA_WS_URL must start with wss:// (not https://) and contain your Helius key.',
+                },
+                {
+                  q: 'GitHub rate limit errors',
+                  a: 'Add GITHUB_TOKEN to Variables — without it you\'re limited to 60 lookups/hour.',
+                },
+              ].map(({ q, a }) => (
+                <div key={q}>
+                  <p className="text-white text-xs font-semibold">❓ {q}</p>
+                  <p className="text-zinc-400 text-xs mt-0.5 leading-relaxed">{a}</p>
+                </div>
+              ))}
             </div>
           </BotMsg>
 

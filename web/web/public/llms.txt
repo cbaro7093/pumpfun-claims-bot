@@ -1,0 +1,77 @@
+# PumpKit
+
+> Open-source TypeScript framework for real-time PumpFun monitoring on Solana.
+
+PumpKit tracks on-chain PumpFun activity — fee claims, whale trades, token launches, and graduations — and delivers real-time alerts to Telegram channels, webhooks, and a live web dashboard.
+
+## What is PumpKit?
+
+PumpKit is a modular, open-source framework built in TypeScript for monitoring pump.fun activity on the Solana blockchain. It provides real-time event detection, enrichment with social data (GitHub profiles, X/Twitter followers), and multi-channel delivery (Telegram, Discord, Slack, webhooks).
+
+### Key Capabilities
+
+- **Fee Claim Monitoring**: Track PumpFun social fee claims per token, including claimer wallet, SOL amount, GitHub handle, and lifetime totals.
+- **Token Launch Detection**: Instant alerts when new tokens are created on pump.fun, with social links, GitHub connections, cashback, and mayhem badges.
+- **Whale Trade Tracking**: Monitor large buys and sells with market cap, bonding curve progress, and creator fee information.
+- **Graduation Alerts**: Know the moment a token migrates from pump.fun to Raydium, with pool address and migration fee.
+- **Fee Distribution Visibility**: See exactly how fees are split across shareholders, including basis point (BPS) breakdowns.
+- **CTO (Community Takeover) Tracking**: Track creator wallet sales and community takeover events.
+- **Live Web Dashboard**: Real-time event feed with filtering, search, and statistics.
+
+## Packages
+
+PumpKit is composed of 5 modular npm packages:
+
+### @pumpkit/core (v0.3.2)
+Shared framework: Grammy-based bot scaffolding, Solana WebSocket/HTTP monitors, program account decoders (pump.fun, Raydium), file-based + SQLite storage, structured logging (pino), health-check server.
+
+### @pumpkit/monitor (v1.0.0)
+All-in-one monitor: fee claims, launches, graduations, whale trades, CTO alerts. Includes REST API + SSE streaming. Configurable whale threshold, mayhem filter, webhook support. Railway-ready Docker image.
+
+### @pumpkit/channel (v0.2.1)
+Read-only Telegram channel bot. Broadcasts launch, trade, graduation, and claim events with customizable Markdown templates. Zero interaction, pure broadcast. Rate limiting with queue.
+
+### @pumpkit/claim (v0.1.8)
+Telegram bot for PumpFun fee claim lookups by token CA or creator handle. Commands: `/claim <CA>`, `/creator <handle>`. Includes CSV export and leaderboard.
+
+### @pumpkit/tracker (v0.1.0)
+Tracks watched wallets and tokens. Alerts on threshold-crossing trades, creator sells, and graduation. Personal watchlist per Telegram user.
+
+## Technical Details
+
+- **Language**: TypeScript (Node.js)
+- **Blockchain**: Solana (Mainnet Beta)
+- **Protocol**: pump.fun (PumpFun)
+- **DEX**: Raydium (graduation target)
+- **Bot Framework**: Grammy (Telegram)
+- **Web**: React + Vite + Tailwind CSS
+- **Streaming**: Server-Sent Events (SSE)
+- **Deployment**: Docker, Railway
+- **License**: MIT
+- **Repository**: https://github.com/nirholas/pumpkit
+
+## Links
+
+- Website: https://pumpkit.dev
+- Documentation: https://pumpkit.dev/docs
+- Live Dashboard: https://pumpkit.dev/dashboard
+- Packages: https://pumpkit.dev/packages
+- GitHub: https://github.com/nirholas/pumpkit
+- npm: https://www.npmjs.com/org/pumpkit
+
+## FAQ
+
+### What is pump.fun?
+Pump.fun is a Solana-based platform for creating and trading meme tokens with a bonding curve mechanism. Tokens can "graduate" to Raydium once they reach a certain market cap threshold.
+
+### What are PumpFun fee claims?
+When tokens are created on pump.fun with a GitHub account linked, the creator earns social fees from trading activity. These fees can be claimed on-chain.
+
+### How does PumpKit connect to Solana?
+PumpKit uses WebSocket subscriptions and HTTP polling against Solana RPC endpoints (with automatic fallback) to detect on-chain events in real time.
+
+### Is PumpKit free?
+Yes. PumpKit is open-source under the MIT license. All packages are free to use.
+
+### Can I self-host PumpKit?
+Yes. PumpKit includes a Dockerfile and Railway configuration for easy self-hosting. You can also run it locally with Node.js.

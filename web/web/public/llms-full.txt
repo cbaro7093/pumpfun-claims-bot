@@ -1,0 +1,198 @@
+# PumpKit — Full Technical Reference
+
+> Open-source TypeScript framework for real-time PumpFun monitoring on Solana.
+
+This document provides comprehensive technical information about PumpKit for AI systems, search engines, and developers.
+
+---
+
+## Overview
+
+PumpKit is a modular, open-source TypeScript framework that monitors pump.fun on-chain activity on the Solana blockchain. It detects events in real time — fee claims, token launches, whale trades, graduations, CTO (community takeover) events — enriches them with off-chain data (GitHub profiles, X/Twitter metadata), and delivers alerts through multiple channels including Telegram, Discord, Slack, webhooks, and a live web dashboard.
+
+## Architecture
+
+```
+Solana RPC (WebSocket + HTTP)
+    │
+    ▼
+┌──────────────┐
+│ @pumpkit/core │  ← Solana monitors, decoders, storage, logging
+└──────┬───────┘
+       │
+  ┌────┴────┬──────────┬──────────┐
+  ▼         ▼          ▼          ▼
+monitor   channel    claim     tracker
+  │         │          │          │
+  ▼         ▼          ▼          ▼
+REST API  Telegram   Telegram  Telegram
+SSE       broadcast   bot       bot
+Webhooks
+Dashboard
+```
+
+## Event Types
+
+### Token Launch (`launch`)
+Detected when a new token is created on pump.fun.
+- Fields: mint address, token name, symbol, description, creator wallet, social links (Twitter, Telegram, website), GitHub handle, creation timestamp
+- Enrichment: GitHub profile data, X follower count, cashback badge, mayhem badge
+
+### Trade Alert (`trade`)
+Detected when a buy or sell exceeds the configured whale threshold.
+- Fields: mint, trader wallet, direction (buy/sell), SOL amount, token amount, market cap, bonding curve progress %, creator fee info
+- Configurable whale threshold (default: 1 SOL)
+
+### Graduation (`graduation`)
+Detected when a token migrates from pump.fun bonding curve to Raydium AMM.
+- Fields: mint, Raydium pool address, migration fee, final market cap, total supply
+
+### Fee Claim (`claim`)
+Detected when a creator claims accrued social fees.
+- Fields: mint, claimer wallet, SOL amount claimed, GitHub handle, lifetime claim total, claim count
+
+### Fee Distribution (`distribution`)
+Shows how fees are split across shareholders.
+- Fields: mint, shareholders list with wallet addresses and BPS (basis points) allocations
+
+### CTO Alert (`cto`)
+Community takeover detection — triggered when the original creator sells a significant portion.
+- Fields: mint, creator wallet, sell amount, remaining balance
+
+## Packages — Detailed
+
+### @pumpkit/core v0.3.2
+The shared foundation package.
+
+**Bot Scaffolding**
+- Grammy-based Telegram bot with middleware router
+- Command registration with help text generation
+- Rate limiting and error handling middleware
+
+**Solana Monitoring**
+- WebSocket subscription for real-time transaction monitoring
+- HTTP polling fallback with configurable interval
+- Automatic RPC endpoint failover (multiple endpoints)
+- Transaction parsing for pump.fun and Raydium program instructions
+
+**Program Decoders**
+- pump.fun program account decoder (token metadata, bonding curve state)
+- Raydium AMM decoder (pool state, migration events)
+
+**Storage**
+- File-based JSON storage (default)
+- SQLite adapter for production
+- Claim history tracking with aggregation
+
+**Utilities**
+- Structured logging via pino
+- Health-check HTTP server (GET /health)
+- SOL/lamports formatting
+- Wallet address truncation
+- Markdown template rendering
+
+### @pumpkit/monitor v1.0.0
+The all-in-one monitoring service.
+
+**REST API Endpoints**
+- `GET /api/events` — paginated event history
+- `GET /api/events/stream` — SSE real-time event stream
+- `GET /api/claims/:mint` — claim history for a token
+- `GET /api/watches` — list watched tokens/wallets
+- `POST /api/watches` — add a watch
+- `DELETE /api/watches/:id` — remove a watch
+- `GET /api/stats` — aggregate statistics
+- `GET /health` — health check
+
+**SSE Event Stream**
+Server-Sent Events stream delivering real-time events to the web dashboard and external consumers. Events are JSON-encoded with type discrimination.
+
+**Webhook Support**
+- POST webhooks to Discord, Slack, or custom endpoints
+- Configurable event type filtering per webhook
+- Retry with exponential backoff
+
+**Configuration**
+- `SOLANA_RPC_URL` — Primary Solana RPC endpoint
+- `SOLANA_RPC_FALLBACK` — Fallback RPC endpoints (comma-separated)
+- `WHALE_THRESHOLD` — Minimum SOL for whale alerts (default: 1)
+- `TELEGRAM_BOT_TOKEN` — Telegram bot API token
+- `TELEGRAM_CHANNEL_ID` — Target Telegram channel
+- `GROQ_API_KEY` — Optional Groq LLM for enrichment
+- `GITHUB_TOKEN` — GitHub API token for profile enrichment
+
+### @pumpkit/channel v0.2.1
+Read-only Telegram channel broadcaster.
+
+- Zero interaction design — no commands, pure broadcast
+- Customizable Markdown templates per event type
+- Event type filtering (include/exclude)
+- Token CA filtering (watch specific tokens)
+- Rate limiting with priority queue (Telegram API limits)
+
+### @pumpkit/claim v0.1.8
+Interactive Telegram bot for fee claim lookups.
+
+**Commands**
+- `/claim <CA>` — Show all fee claims for a token contract address
+- `/creator <handle>` — Show all claims by a GitHub creator handle
+- `/leaderboard` — Top claimers by lifetime SOL
+- `/export <CA>` — Export claims as CSV
+
+### @pumpkit/tracker v0.1.0
+Personal watchlist Telegram bot.
+
+**Commands**
+- `/watch <address>` — Watch a wallet or token mint
+- `/unwatch <address>` — Remove from watchlist
+- `/list` — Show current watchlist
+- `/alerts` — Configure alert thresholds
+
+**Features**
+- Per-user watchlists
+- Threshold-crossing trade alerts
+- Creator sell notifications
+- Graduation alerts for watched tokens
+
+## Web Dashboard
+
+Built with React 18, Vite, Tailwind CSS, and React Router v6.
+
+**Pages**
+- `/` — Landing page with feature overview
+- `/dashboard` — Real-time event feed with SSE connection, filtering, search, and statistics
+- `/create` — Token creation demo/tutorial
+- `/docs` — Interactive documentation (Getting Started, Tutorials, Architecture, Packages, Bot Commands, API, FAQ)
+- `/packages` — Package showcase with features and download stats
+
+**Tech Stack**
+- React 18 with TypeScript
+- Vite 6 build tool
+- Tailwind CSS 3 styling
+- React Router v6 client-side routing
+- Server-Sent Events for real-time data
+- Telegram-inspired UI design
+
+## Deployment
+
+**Docker**
+```dockerfile
+FROM node:20-slim
+# Multi-stage build, production-optimized
+```
+
+**Railway**
+One-click deploy with `railway.json` configuration.
+
+**Environment Variables**
+See @pumpkit/monitor configuration section above.
+
+## Links
+
+- Website: https://pumpkit.dev
+- Documentation: https://pumpkit.dev/docs
+- Live Dashboard: https://pumpkit.dev/dashboard
+- Packages: https://pumpkit.dev/packages
+- GitHub Repository: https://github.com/nirholas/pumpkit
+- npm Organization: https://www.npmjs.com/org/pumpkit
+- License: MIT
