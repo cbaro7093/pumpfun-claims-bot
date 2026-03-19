@@ -11,7 +11,7 @@
   <a href="https://t.me/pumpfunclaims"><img src="https://img.shields.io/badge/Telegram-@pumpfunclaims-229ED9?logo=telegram" alt="Telegram"></a>
   <img src="https://img.shields.io/badge/Node.js-%3E%3D20-339933?logo=node.js" alt="Node.js">
   <img src="https://img.shields.io/badge/Solana-mainnet-9945FF?logo=solana" alt="Solana">
-  <a href="https://railway.app/template/pumpfun-claims-bot"><img src="https://img.shields.io/badge/Deploy-Railway-0B0D0E?logo=railway" alt="Deploy on Railway"></a>
+  <a href="https://railway.com/deploy/Qab59T?referralCode=tqNsEB"><img src="https://img.shields.io/badge/Deploy-Railway-0B0D0E?logo=railway" alt="Deploy on Railway"></a>
 </p>
 
 <p align="center">
@@ -246,6 +246,8 @@ docker run -d --env-file .env pumpfun-channel-bot
 ```
 
 ### 5. Deploy to Railway
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/Qab59T?referralCode=tqNsEB)
 
 Railway auto-deploys from GitHub and provides persistent volumes for claim tracking data.
 
