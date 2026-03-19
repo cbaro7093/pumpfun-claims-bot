@@ -1,5 +1,9 @@
 # PumpFun Channel Bot
 
+<p align="center">
+  <img src="docs/banner.svg" alt="PumpFun Claims Bot — Solana on-chain events → enrichment pipeline → Telegram channel cards" width="860"/>
+</p>
+
 Read-only Telegram channel feed that broadcasts PumpFun on-chain activity — GitHub social fee claims, token graduations, and more. Posts rich, intelligence-enriched cards to a Telegram channel in real time.
 
  **[pumpfun-claims-bot.vercel.app](https://pumpfun-claims-bot.vercel.app)** 
@@ -108,24 +112,69 @@ CHANNEL_ID=@your_channel_name    # or numeric chat ID like -100xxx
 SOLANA_RPC_URL=https://mainnet.helius-rpc.com/?api-key=your-key
 SOLANA_WS_URL=wss://mainnet.helius-rpc.com/?api-key=your-key
 
-# Multiple RPC endpoints for fallback (comma-separated)
+# Comma-separated fallback RPCs (rotates on 429/5xx/timeout)
 SOLANA_RPC_URLS=https://mainnet.helius-rpc.com/?api-key=key1,https://your-other-rpc.com
 
-# ── Feed Toggles ──────────────────────────────────────────
-FEED_CLAIMS=true                 # GitHub social fee claims
-FEED_GRADUATIONS=true            # Token graduations
+# ── Feed Toggles (all default false except FEED_CLAIMS) ───
+FEED_CLAIMS=true                 # GitHub social fee claims (default: true)
+FEED_GRADUATIONS=false           # Token graduations to PumpAMM (default: false)
+FEED_LAUNCHES=false              # New token launches (default: false)
+FEED_WHALES=false                # Large buy/sell whale alerts (default: false)
+FEED_FEE_DISTRIBUTIONS=false     # Creator fee distribution events (default: false)
 
-# ── GitHub Enrichment ─────────────────────────────────────
-REQUIRE_GITHUB=true              # Only post claims with GitHub social fee PDA
-GITHUB_TOKEN=ghp_your_token      # Optional: raises rate limit from 60 to 5000 req/hr
+# ── Claim Filter ──────────────────────────────────────────
+REQUIRE_GITHUB=true              # Only post claims with GitHub social fee PDA (default: true)
 
-# ── AI Summaries (optional) ──────────────────────────────
-GROQ_API_KEY=gsk_your_key        # Groq API for AI one-liners
+# ── Enrichment APIs ───────────────────────────────────────
+GITHUB_TOKEN=ghp_your_token      # Raises GitHub rate limit: 60 → 5000 req/hr
+GROQ_API_KEY=gsk_your_key        # Groq API for AI one-liner summaries
+
+# X/Twitter follower counts & influencer detection
+# Get cookies from x.com DevTools → Application → Cookies
+# X_AUTH_TOKEN=your_auth_token_cookie
+# X_CT0_TOKEN=your_ct0_cookie
+
+# ── Affiliate Ref Codes ───────────────────────────────────
+# Appended to Axiom / GMGN / Padre trading links in cards
+# AXIOM_REF=your_ref
+# GMGN_REF=your_ref
+# PADRE_REF=your_ref
 
 # ── Tuning ────────────────────────────────────────────────
-POLL_INTERVAL_SECONDS=30         # HTTP polling fallback interval
-LOG_LEVEL=info                   # debug | info | warn | error
+POLL_INTERVAL_SECONDS=30         # HTTP polling fallback interval (default: 30)
+WHALE_THRESHOLD_SOL=10           # Minimum SOL for whale alerts (default: 10)
+LOG_LEVEL=info                   # debug | info | warn | error (default: info)
+
+# ── Health Check ──────────────────────────────────────────
+# PORT=3000                      # Set automatically by Railway
 ```
+
+### Environment Variables Reference
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `TELEGRAM_BOT_TOKEN` | ✅ | — | Bot token — message [@BotFather](https://t.me/BotFather) → `/newbot` |
+| `CHANNEL_ID` | ✅ | — | Channel to post to (`@channelname` or `-100xxx`) — get the numeric ID via [@userinfobot](https://t.me/userinfobot) |
+| `SOLANA_RPC_URL` | ✅ | `https://api.mainnet-beta.solana.com` | Primary Solana HTTP RPC — free tier at [Helius](https://helius.dev), [QuickNode](https://quicknode.com), or [Alchemy](https://alchemy.com) |
+| `SOLANA_WS_URL` | — | Derived from `SOLANA_RPC_URL` | Solana WebSocket URL — same provider as `SOLANA_RPC_URL`, replace `https://` with `wss://` |
+| `SOLANA_RPC_URLS` | — | — | Comma-separated fallback RPC URLs — auto-rotates on 429 / 5xx / timeout |
+| `FEED_CLAIMS` | — | `true` | Post GitHub social fee claim cards |
+| `FEED_GRADUATIONS` | — | `false` | Post token graduation cards |
+| `FEED_LAUNCHES` | — | `false` | Post new token launch cards |
+| `FEED_WHALES` | — | `false` | Post whale buy/sell alerts |
+| `FEED_FEE_DISTRIBUTIONS` | — | `false` | Post creator fee distribution events |
+| `REQUIRE_GITHUB` | — | `true` | Skip claims that have no GitHub social fee PDA |
+| `GITHUB_TOKEN` | — | — | GitHub PAT — [create one here](https://github.com/settings/tokens/new?description=pumpfun-claims-bot&scopes=) (no scopes needed) — raises rate limit from 60 → 5000 req/hr |
+| `GROQ_API_KEY` | — | — | Groq API key for AI one-liner summaries — [get a free key at console.groq.com](https://console.groq.com/keys) |
+| `X_AUTH_TOKEN` | — | — | X/Twitter `auth_token` cookie — open [x.com](https://x.com), DevTools → Application → Cookies → copy `auth_token` |
+| `X_CT0_TOKEN` | — | — | X/Twitter `ct0` cookie (CSRF token) — same place as above, copy `ct0` |
+| `AXIOM_REF` | — | — | Affiliate ref code for [Axiom](https://axiom.trade) trading links |
+| `GMGN_REF` | — | — | Affiliate ref code for [GMGN](https://gmgn.ai) trading links |
+| `PADRE_REF` | — | — | Affiliate ref code for [Padre](https://padre.bot) trading links |
+| `POLL_INTERVAL_SECONDS` | — | `30` | HTTP polling interval when WebSocket is unavailable |
+| `WHALE_THRESHOLD_SOL` | — | `10` | Minimum SOL trade size to trigger a whale alert |
+| `LOG_LEVEL` | — | `info` | Log verbosity: `debug` \| `info` \| `warn` \| `error` |
+| `PORT` | — | `3000` | Health check HTTP server port — set automatically by [Railway](https://railway.app) |
 
 ### 3. Run
 

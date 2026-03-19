@@ -1,0 +1,31 @@
+# PumpKit — allow all crawlers
+User-agent: *
+Allow: /
+
+# AI crawlers — explicitly welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+# Sitemaps
+Sitemap: https://pumpkit.dev/sitemap.xml
+
+# LLMs
+# See https://pumpkit.dev/llms.txt for machine-readable project info

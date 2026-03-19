@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="860" height="320" role="img" aria-label="PumpFun Claims Bot — pipeline diagram">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+
+    <!-- Purple glow (Solana) -->
+    <radialGradient id="solGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9945FF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#9945FF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Green glow (GitHub) -->
+    <radialGradient id="ghGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3fb950" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#3fb950" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Blue glow (Telegram) -->
+    <radialGradient id="tgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#229ED9" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#229ED9" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Pulse animation filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Clip paths for boxes -->
+    <clipPath id="clipBox"><rect rx="12" ry="12" width="140" height="140"/></clipPath>
+
+    <!-- Arrow marker -->
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#9945FF" opacity="0.9"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3fb950" opacity="0.9"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#229ED9" opacity="0.9"/>
+    </marker>
+  </defs>
+
+  <!-- ── Background ── -->
+  <rect width="860" height="320" fill="url(#bg)" rx="16"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="80" x2="860" y2="80"/>
+    <line x1="0" y1="160" x2="860" y2="160"/>
+    <line x1="0" y1="240" x2="860" y2="240"/>
+    <line x1="215" y1="0" x2="215" y2="320"/>
+    <line x1="430" y1="0" x2="430" y2="320"/>
+    <line x1="645" y1="0" x2="645" y2="320"/>
+  </g>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- BLOCK 1 — Solana Chain                  -->
+  <!-- ════════════════════════════════════════ -->
+  <g transform="translate(32,90)">
+    <!-- glow backdrop -->
+    <ellipse cx="75" cy="65" rx="80" ry="65" fill="url(#solGlow)"/>
+
+    <!-- box -->
+    <rect width="150" height="130" rx="14" fill="#1a1d27" stroke="#9945FF" stroke-width="1.5" opacity="0.95"/>
+
+    <!-- Solana diamond logo -->
+    <g transform="translate(55,18)" filter="url(#glow)">
+      <!-- top bar -->
+      <rect x="0" y="0" width="42" height="7" rx="3.5" fill="#9945FF">
+        <animate attributeName="opacity" values="1;0.6;1" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+      <!-- mid bar (offset right) -->
+      <rect x="4" y="11" width="42" height="7" rx="3.5" fill="#14F195">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+      <!-- bottom bar -->
+      <rect x="0" y="22" width="42" height="7" rx="3.5" fill="#9945FF">
+        <animate attributeName="opacity" values="1;0.6;1" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <text x="75" y="78" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="13" font-weight="700" fill="#e6edf3">Solana Chain</text>
+    <text x="75" y="95" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" fill="#8b949e">WebSocket + RPC</text>
+
+    <!-- animated pulse dot -->
+    <circle cx="127" cy="12" r="4.5" fill="#14F195">
+      <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="4.5;6.5;4.5" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <text x="127" y="11" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="7.5" fill="#14F195" dy="5">LIVE</text>
+
+    <!-- event chips -->
+    <rect x="10" y="108" width="60" height="16" rx="8" fill="#9945ff22" stroke="#9945FF" stroke-width="1"/>
+    <text x="40" y="119" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#c9a2ff">PumpFees</text>
+    <rect x="80" y="108" width="60" height="16" rx="8" fill="#14f19522" stroke="#14F195" stroke-width="1"/>
+    <text x="110" y="119" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#14F195">Pump AMM</text>
+  </g>
+
+  <!-- ── Arrow 1 → Enrichment ── -->
+  <g>
+    <!-- travelling dot on arrow 1 -->
+    <circle r="4" fill="#9945FF" filter="url(#glow)" opacity="0.9">
+      <animateMotion dur="1.6s" repeatCount="indefinite" path="M 212,160 L 305,160"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <line x1="212" y1="160" x2="298" y2="160" stroke="#9945FF" stroke-width="1.8" stroke-dasharray="5,4" opacity="0.7" marker-end="url(#arrowPurple)">
+      <animate attributeName="stroke-dashoffset" values="0;-18" dur="0.8s" repeatCount="indefinite"/>
+    </line>
+    <text x="255" y="151" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#9945FF" opacity="0.8">tx events</text>
+  </g>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- BLOCK 2 — Enrichment Bot                -->
+  <!-- ════════════════════════════════════════ -->
+  <g transform="translate(305,68)">
+    <!-- box -->
+    <rect width="250" height="186" rx="14" fill="#1a1d27" stroke="#f0883e" stroke-width="1.5" opacity="0.95"/>
+    <text x="125" y="22" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="13" font-weight="700" fill="#e6edf3">Enrichment Bot</text>
+    <text x="125" y="38" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5" fill="#8b949e">Claim Monitor + Formatter</text>
+
+    <!-- pipeline rows -->
+    <!-- GitHub -->
+    <rect x="14" y="50" width="222" height="26" rx="7" fill="#1f2d1f" stroke="#3fb950" stroke-width="1"/>
+    <text x="26" y="67" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" fill="#3fb950">👤 GitHub Profile</text>
+    <text x="165" y="67" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#8b949e">bio · repos · followers</text>
+
+    <!-- X / Twitter -->
+    <rect x="14" y="82" width="222" height="26" rx="7" fill="#1d2535" stroke="#1d9bf0" stroke-width="1"/>
+    <text x="26" y="99" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" fill="#1d9bf0">𝕏 Twitter / X</text>
+    <text x="120" y="99" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#8b949e">follower count · influencer tier</text>
+
+    <!-- PumpFun API -->
+    <rect x="14" y="114" width="222" height="26" rx="7" fill="#221a1a" stroke="#f0883e" stroke-width="1"/>
+    <text x="26" y="131" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" fill="#f0883e">🪙 PumpFun API</text>
+    <text x="126" y="131" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#8b949e">token info · holders · trades</text>
+
+    <!-- Claim Tracker -->
+    <rect x="14" y="146" width="222" height="26" rx="7" fill="#1d1f2a" stroke="#b392f0" stroke-width="1"/>
+    <text x="26" y="163" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" fill="#b392f0">📊 Claim Tracker</text>
+    <text x="126" y="163" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#8b949e">first-claim · fake detect · SOL</text>
+
+    <!-- animated scan line -->
+    <rect x="14" y="50" width="222" height="2" rx="1" fill="#f0883e" opacity="0.5">
+      <animate attributeName="y" values="50;168;50" dur="3s" repeatCount="indefinite" calcMode="linear"/>
+      <animate attributeName="opacity" values="0;0.6;0" dur="3s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- ── Arrow 2 → Telegram ── -->
+  <g>
+    <circle r="4" fill="#229ED9" filter="url(#glow)" opacity="0.9">
+      <animateMotion dur="1.6s" begin="0.8s" repeatCount="indefinite" path="M 605,160 L 690,160"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="1.6s" begin="0.8s" repeatCount="indefinite"/>
+    </circle>
+    <line x1="605" y1="160" x2="683" y2="160" stroke="#229ED9" stroke-width="1.8" stroke-dasharray="5,4" opacity="0.7" marker-end="url(#arrowBlue)">
+      <animate attributeName="stroke-dashoffset" values="0;-18" dur="0.8s" repeatCount="indefinite"/>
+    </line>
+    <text x="644" y="151" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#229ED9" opacity="0.8">card post</text>
+  </g>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- BLOCK 3 — Telegram Channel Card         -->
+  <!-- ════════════════════════════════════════ -->
+  <g transform="translate(690,72)">
+    <!-- glow backdrop -->
+    <ellipse cx="75" cy="80" rx="78" ry="62" fill="url(#tgGlow)"/>
+
+    <!-- phone frame -->
+    <rect width="148" height="178" rx="18" fill="#1a1d27" stroke="#229ED9" stroke-width="1.5"/>
+    <!-- notch -->
+    <rect x="44" y="5" width="60" height="8" rx="4" fill="#0d1117"/>
+
+    <!-- Telegram header -->
+    <rect y="18" width="148" height="28" fill="#229ED9" opacity="0.15"/>
+    <!-- Telegram paper plane icon -->
+    <g transform="translate(12,22)" fill="#229ED9" filter="url(#glow)">
+      <polygon points="0,10 20,0 16,20" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3s" repeatCount="indefinite"/>
+      </polygon>
+      <polygon points="0,10 16,20 8,12" fill="#1a1d27"/>
+    </g>
+    <text x="42" y="36" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" font-weight="700" fill="#229ED9">@pumpfunclaims</text>
+
+    <!-- mock claim card -->
+    <rect x="8" y="52" width="132" height="116" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+
+    <!-- avatar circle -->
+    <circle cx="26" cy="68" r="11" fill="#3fb950" opacity="0.9"/>
+    <text x="26" y="72" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" fill="#0d1117">G</text>
+
+    <!-- 🚨 first-claim badge -->
+    <rect x="40" y="58" width="95" height="14" rx="4" fill="#ff000022" stroke="#ff4444" stroke-width="0.8"/>
+    <text x="87" y="68" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="8.5" fill="#ff6666">🚨 FIRST TIME CLAIM</text>
+
+    <!-- username line -->
+    <text x="40" y="85" font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5" font-weight="700" fill="#e6edf3">github-dev.sol</text>
+    <!-- SOL amount -->
+    <text x="40" y="98" font-family="'Segoe UI',system-ui,sans-serif" font-size="8.5" fill="#14F195">◎ 2.41 SOL claimed</text>
+    <!-- token line -->
+    <rect x="8" y="104" width="132" height="1" fill="#30363d"/>
+    <text x="14" y="116" font-family="'Segoe UI',system-ui,sans-serif" font-size="8" fill="#8b949e">🪙 PEPE2 · 94.2% curve</text>
+    <text x="14" y="128" font-family="'Segoe UI',system-ui,sans-serif" font-size="8" fill="#8b949e">🏅 Mega Influencer · 12k followers</text>
+
+    <!-- action links row -->
+    <rect x="14" y="136" width="34" height="13" rx="4" fill="#9945ff33" stroke="#9945FF" stroke-width="0.7"/>
+    <text x="31" y="145" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="7.5" fill="#c9a2ff">Axiom</text>
+    <rect x="55" y="136" width="30" height="13" rx="4" fill="#1d9bf033" stroke="#1d9bf0" stroke-width="0.7"/>
+    <text x="70" y="145" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="7.5" fill="#1d9bf0">GMGN</text>
+    <rect x="92" y="136" width="30" height="13" rx="4" fill="#f0883e33" stroke="#f0883e" stroke-width="0.7"/>
+    <text x="107" y="145" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="7.5" fill="#f0883e">Padre</text>
+
+    <!-- notification dot pulsing -->
+    <circle cx="136" cy="52" r="5" fill="#229ED9">
+      <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- Title & subtitle (bottom)               -->
+  <!-- ════════════════════════════════════════ -->
+  <text x="430" y="286" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="19" font-weight="800" fill="#e6edf3" letter-spacing="0.5">
+    PumpFun Claims Bot
+  </text>
+  <text x="430" y="308" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" fill="#8b949e">
+    Real-time GitHub social fee claims · Solana on-chain · Telegram channel
+  </text>
+
+  <!-- top-center label badges -->
+  <g transform="translate(430,14)">
+    <rect x="-130" y="0" width="82" height="18" rx="9" fill="#9945ff22" stroke="#9945FF" stroke-width="1"/>
+    <text x="-89" y="12" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5" fill="#c9a2ff">⛓ Solana Mainnet</text>
+    <rect x="-40" y="0" width="82" height="18" rx="9" fill="#3fb95022" stroke="#3fb950" stroke-width="1"/>
+    <text x="2" y="12" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5" fill="#3fb950">🐙 GitHub API</text>
+    <rect x="50" y="0" width="82" height="18" rx="9" fill="#229ed922" stroke="#229ED9" stroke-width="1"/>
+    <text x="91" y="12" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5" fill="#229ED9">✈ Telegram</text>
+  </g>
+</svg>

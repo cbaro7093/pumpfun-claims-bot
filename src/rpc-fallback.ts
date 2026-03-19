@@ -116,16 +116,27 @@ export class RpcFallback {
             } catch (err) {
                 lastErr = err;
                 const msg = String(err);
+                // 403 with -32052 means the API key lacks blockchain access — treat as
+                // endpoint-level permanent failure so we rotate to fallbacks if available.
+                const is403ApiKeyError = msg.includes('403') && msg.includes('-32052');
                 const isRetryable =
-                    (msg.includes('429') ||
+                    is403ApiKeyError ||
+                    msg.includes('429') ||
                     msg.includes('502') ||
                     msg.includes('503') ||
                     msg.includes('504') ||
                     msg.includes('ETIMEDOUT') ||
                     msg.includes('ECONNREFUSED') ||
                     msg.includes('ECONNRESET') ||
-                    msg.includes('fetch failed')) &&
-                    !msg.includes('403');
+                    msg.includes('fetch failed');
+
+                if (is403ApiKeyError) {
+                    log.error(
+                        'RPC endpoint %s: API key lacks blockchain access (403/-32052). ' +
+                        'Upgrade your plan or set a different SOLANA_RPC_URL.',
+                        maskUrl(this.currentUrl),
+                    );
+                }
 
                 if (isRetryable && attempt < this.urls.length - 1) {
                     log.warn(
