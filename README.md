@@ -138,6 +138,45 @@ The `RpcFallback` class manages multiple Solana RPC endpoints with automatic rot
 | Pump | `6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P` | Bonding curve (graduations) |
 | PumpAMM | `pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA` | AMM (graduated pool events) |
 
+## Install
+
+### npm (MCP server — recommended for AI assistants)
+
+Run the MCP server instantly with **npx** — no clone needed:
+
+```bash
+npx pumpfun-claims-bot
+```
+
+Or install globally:
+
+```bash
+npm install -g pumpfun-claims-bot
+pumpfun-claims-bot
+```
+
+Add to your MCP client config (Claude Desktop, Cursor, VS Code Copilot):
+
+```json
+{
+  "mcpServers": {
+    "pumpfun": {
+      "command": "npx",
+      "args": ["pumpfun-claims-bot"]
+    }
+  }
+}
+```
+
+> **npm package:** [pumpfun-claims-bot on npm](https://www.npmjs.com/package/pumpfun-claims-bot)
+
+### From source (full bot + Telegram feed)
+
+```bash
+git clone https://github.com/nirholas/pumpfun-claims-bot.git
+cd pumpfun-claims-bot && npm install
+```
+
 ## Quick Start
 
 ### 1. Create a Telegram Bot

@@ -1,6 +1,7 @@
 {
   "name": "pumpfun-claims-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "mcpName": "io.github.nirholas/pumpfun-claims-bot",
   "description": "PumpFun on-chain intelligence — Telegram feed + MCP server for AI assistants. Query token data, GitHub social fee claims, creator profiles, and more.",
   "type": "module",
   "license": "MIT",
@@ -17,6 +18,7 @@
     "mcp",
     "model-context-protocol",
     "pumpfun",
+    "pump-fun",
     "solana",
     "claims",
     "telegram",
@@ -25,7 +27,16 @@
     "on-chain",
     "ai",
     "claude",
-    "copilot"
+    "copilot",
+    "blockchain",
+    "web3",
+    "social-fee",
+    "github",
+    "token",
+    "graduation",
+    "whale-alerts",
+    "monitoring",
+    "mcp-server"
   ],
   "bin": {
     "pumpfun-claims-bot": "dist/mcp-stdio.js"

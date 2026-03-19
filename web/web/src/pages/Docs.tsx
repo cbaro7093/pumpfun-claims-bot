@@ -69,9 +69,25 @@ export default function Docs() {
               <li>• A Telegram Bot Token (from @BotFather)</li>
               <li>• A Solana RPC URL (Helius, Quicknode, etc.)</li>
             </ul>
+            <p className="text-white text-xs font-semibold mt-3 mb-1">Quick install via npm</p>
+            <div className="bg-[#1a2332] rounded-lg p-3 font-mono text-xs text-zinc-300 overflow-x-auto mb-3">
+              <p><span className="text-pump-green">$</span> npx pumpfun-claims-bot</p>
+              <p className="text-zinc-500 mt-1"># or install globally</p>
+              <p><span className="text-pump-green">$</span> npm install -g pumpfun-claims-bot</p>
+              <p><span className="text-pump-green">$</span> pumpfun-claims-bot</p>
+            </div>
+            <a
+              href="https://www.npmjs.com/package/pumpfun-claims-bot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-tg-blue hover:underline mb-3"
+            >
+              📦 pumpfun-claims-bot on npm →
+            </a>
+            <p className="text-white text-xs font-semibold mt-2 mb-1">From source (full bot + Telegram feed)</p>
             <div className="bg-[#1a2332] rounded-lg p-3 font-mono text-xs text-zinc-300 overflow-x-auto">
-              <p><span className="text-pump-green">$</span> git clone https://github.com/nirholas/pumpkit.git</p>
-              <p><span className="text-pump-green">$</span> cd pumpkit &amp;&amp; npm install</p>
+              <p><span className="text-pump-green">$</span> git clone https://github.com/nirholas/pumpfun-claims-bot.git</p>
+              <p><span className="text-pump-green">$</span> cd pumpfun-claims-bot &amp;&amp; npm install</p>
             </div>
           </BotMsg>
 
